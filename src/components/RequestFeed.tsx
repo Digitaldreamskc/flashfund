@@ -25,9 +25,11 @@ export default function RequestFeed() {
     })
   }, [getActiveRequests, searchQuery, selectedCategory])
 
-  const handleDonate = (requestId: string, amount: number) => {
-    donate(requestId, amount)
-    setSelectedRequest(null)
+  const handleDonate = (amount: number) => {
+    if (selectedRequest) {
+      donate(selectedRequest.id, amount)
+      setSelectedRequest(null)
+    }
   }
 
   const handleResetFilters = () => {

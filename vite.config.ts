@@ -13,13 +13,17 @@ export default defineConfig({
       '@solana/wallet-adapter-base',
       '@solana/wallet-adapter-react',
       '@solana/wallet-adapter-react-ui',
-      '@solana/wallet-adapter-wallets'
+      '@solana/wallet-adapter-solflare'
     ],
   },
   build: {
     target: 'esnext',
     commonjsOptions: {
       include: [/@solana\/.*/, /node_modules/],
+    },
+    sourcemap: true,
+    rollupOptions: {
+      external: ['@solana/web3.js'],
     },
   },
   resolve: {
@@ -29,6 +33,7 @@ export default defineConfig({
       zlib: path.resolve(__dirname, 'node_modules/browserify-zlib'),
       util: path.resolve(__dirname, 'node_modules/util'),
       buffer: path.resolve(__dirname, 'node_modules/buffer'),
+      '@': path.resolve(__dirname, './src'),
     },
   },
   define: {

@@ -16,36 +16,14 @@ export default function RequestForm() {
 
   useEffect(() => {
     const getLocation = async () => {
-      if (!navigator.geolocation) {
-        setLocationStatus('error')
-        return
-      }
-
       try {
         setLocationStatus('loading')
-        const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-          navigator.geolocation.getCurrentPosition(resolve, reject, {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0
-          })
-        })
-
-        // Use reverse geocoding to get city/region
-        const response = await fetch(
-          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${position.coords.latitude}&lon=${position.coords.longitude}`
-        )
-        const data = await response.json()
+        const res = await fetch('https://ipapi.co/json')
+        const data = await res.json()
         
-        if (data.address) {
-          const city = data.address.city || data.address.town || data.address.village
-          const state = data.address.state
-          if (city && state) {
-            setLocation(`${city}, ${state}`)
-            setLocationStatus('success')
-          } else {
-            setLocationStatus('error')
-          }
+        if (data.city && data.region) {
+          setLocation(`${data.city}, ${data.region}, ${data.country_name}`)
+          setLocationStatus('success')
         } else {
           setLocationStatus('error')
         }
