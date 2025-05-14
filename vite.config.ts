@@ -2,30 +2,9 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 
+// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  optimizeDeps: {
-    esbuildOptions: {
-      target: 'esnext',
-    },
-    include: [
-      '@solana/web3.js',
-      '@solana/wallet-adapter-base',
-      '@solana/wallet-adapter-react',
-      '@solana/wallet-adapter-react-ui',
-      '@solana/wallet-adapter-solflare'
-    ],
-  },
-  build: {
-    target: 'esnext',
-    commonjsOptions: {
-      include: [/@solana\/.*/, /node_modules/],
-    },
-    sourcemap: true,
-    rollupOptions: {
-      external: ['@solana/web3.js'],
-    },
-  },
   resolve: {
     alias: {
       process: path.resolve(__dirname, 'node_modules/process/browser.js'),
@@ -33,12 +12,46 @@ export default defineConfig({
       zlib: path.resolve(__dirname, 'node_modules/browserify-zlib'),
       util: path.resolve(__dirname, 'node_modules/util'),
       buffer: path.resolve(__dirname, 'node_modules/buffer'),
-      '@': path.resolve(__dirname, './src'),
+      'rpc-websockets': path.resolve(__dirname, 'node_modules/rpc-websockets')
+    }
+  },
+  optimizeDeps: {
+    include: [
+      '@solana/web3.js',
+      '@solana/wallet-adapter-base',
+      '@solana/wallet-adapter-react',
+      '@solana/wallet-adapter-react-ui',
+      'buffer',
+      'process',
+      'stream-browserify',
+      'util',
+      'browserify-zlib'
+    ],
+    esbuildOptions: {
+      target: 'esnext'
+    }
+  },
+  build: {
+    target: 'esnext',
+    commonjsOptions: {
+      include: [/@solana\/.*/, /node_modules/],
+      transformMixedEsModules: true
     },
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'wallet-adapter': [
+            '@solana/wallet-adapter-base',
+            '@solana/wallet-adapter-react',
+            '@solana/wallet-adapter-react-ui'
+          ]
+        }
+      }
+    }
   },
   define: {
     'process.env': {},
-    global: 'globalThis',
+    global: 'globalThis'
   },
   server: {
     headers: {
