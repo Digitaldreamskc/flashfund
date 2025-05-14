@@ -1,55 +1,63 @@
-# React + TypeScript + Vite
+# ⚡ FlashFund — Emergency Aid, Onchain and Instant
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**FlashFund** is a lightweight, fast-response dApp that lets users raise and receive emergency crypto donations instantly through micro-contributions on Solana.
 
-Currently, two official plugins are available:
+Designed for speed, simplicity, and trust.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 💡 Problem
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Traditional fundraising platforms are slow, bureaucratic, and often inaccessible in real emergencies. FlashFund lets anyone raise support in seconds—from a natural disaster to a personal crisis.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🔧 Tech Stack
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Frontend**: Vite + React + Tailwind CSS
+- **Wallets**: Solana Wallet Adapter (`@solana/wallet-adapter-react`)
+- **State Management**: Zustand (lightweight global store)
+- **Mock Flow**: Simulated donation via confirmation modal
+- **Geo Layer**: IP-based location autofill (`ipapi.co`)
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
-# flashfund
+---
+
+## 🎯 Features
+
+- 🟣 Instant request creation (USDC)
+- 🔒 Verified wallet logic
+- 🗺 Location + disaster category tagging
+- 📊 Live dashboard with stats
+- 🧠 Fraud prevention (1 active request per wallet)
+- 🔍 Real-time filtering (search by location or type)
+- 🧾 Expiration countdown (48h window)
+- ✅ Mobile-friendly & responsive
+
+---
+
+## 🌐 Live Demo
+
+🔗 https://flahfundd.netlify.app/  
+
+
+---
+
+## 🚀 Roadmap (Post-MVP)
+
+- Solana Pay / USDC donation flow
+- Identity verification (optional)
+- DAO-managed fund pools
+- Map view for request geolocation
+- Integration with disaster feeds (FEMA, Weather APIs)
+
+---
+
+## 📸 Preview
+
+![FlashFund UI](./screenshot.png)
+
+---
+
+> Built during  ZeePrime Hackathon Phase 2: Build a Unique Project
+> By Mary McCawley – Digitaldreamskc.io
+
