@@ -6,7 +6,7 @@
 
 @layer base {
   body {
-    @apply bg-gray-50 text-gray-900;
+    @apply bg-gray-900 text-white;
   }
 }
 
@@ -14,11 +14,7 @@
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  color-scheme: dark;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -100,6 +96,42 @@ button:focus-visible {
     filter: blur(1px);
     animation: glow-line 3s linear infinite;
   }
+
+  .bg-grid-white {
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  }
+}
+
+@layer utilities {
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  .animate-glow-line {
+    animation: glow-line 3s linear infinite;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out forwards;
+  }
+
+  .delay-1000 {
+    animation-delay: 1s;
+  }
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px rgba(6, 182, 212, 0.5),
+                 0 0 20px rgba(6, 182, 212, 0.3),
+                 0 0 30px rgba(6, 182, 212, 0.2);
+  }
+  to {
+    text-shadow: 0 0 20px rgba(6, 182, 212, 0.6),
+                 0 0 30px rgba(6, 182, 212, 0.4),
+                 0 0 40px rgba(6, 182, 212, 0.3);
+  }
 }
 
 @keyframes glow-line {
@@ -113,5 +145,16 @@ button:focus-visible {
   100% {
     transform: translateX(100%);
     opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

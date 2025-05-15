@@ -7,25 +7,47 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        futuristic: ['Orbitron', 'sans-serif'],
+        orbitron: ['Orbitron', 'sans-serif'],
       },
       animation: {
-        'scroll-bg': 'scroll-bg 10s linear infinite',
         'glow': 'glow 2s ease-in-out infinite alternate',
+        'glow-line': 'glow-line 3s linear infinite',
+        'fade-in': 'fade-in 0.5s ease-out forwards',
       },
       keyframes: {
-        'scroll-bg': {
-          '0%': { backgroundPosition: '0% 0%' },
-          '100%': { backgroundPosition: '100% 0%' },
+        glow: {
+          'from': {
+            textShadow: '0 0 10px rgba(6, 182, 212, 0.5), 0 0 20px rgba(6, 182, 212, 0.3), 0 0 30px rgba(6, 182, 212, 0.2)',
+          },
+          'to': {
+            textShadow: '0 0 20px rgba(6, 182, 212, 0.6), 0 0 30px rgba(6, 182, 212, 0.4), 0 0 40px rgba(6, 182, 212, 0.3)',
+          },
         },
-        'glow': {
-          '0%': { textShadow: '0 0 5px rgba(0,255,255,0.5), 0 0 10px rgba(0,255,255,0.3)' },
-          '100%': { textShadow: '0 0 10px rgba(0,255,255,0.8), 0 0 20px rgba(0,255,255,0.5)' },
+        'glow-line': {
+          '0%': {
+            transform: 'translateX(-100%)',
+            opacity: '0',
+          },
+          '50%': {
+            opacity: '0.5',
+          },
+          '100%': {
+            transform: 'translateX(100%)',
+            opacity: '0',
+          },
+        },
+        'fade-in': {
+          'from': {
+            opacity: '0',
+            transform: 'translateY(10px)',
+          },
+          'to': {
+            opacity: '1',
+            transform: 'translateY(0)',
+          },
         },
       },
     },
   },
-  plugins: [
-    require('@tailwindcss/forms'),
-  ],
+  plugins: [],
 } 
