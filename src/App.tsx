@@ -33,10 +33,10 @@ function App() {
                 FlashFund
               </h1>
               <p className="text-2xl md:text-3xl font-orbitron font-medium mb-8 text-gray-200">
-                Rapid Relief, Verified on the Blockchain
+                Fast Aid, Real People, Transparent Impact
               </p>
               <p className="text-lg md:text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
-                Submit urgent needs. Backed by Web3. Powered by community.
+                Share urgent needs. Rally real support. Every request is tracked, every response visible.
               </p>
               <div className="animate-fade-in">
                 <WalletMultiButton className="!bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 !text-white !font-medium !px-8 !py-3 !rounded-lg !shadow-lg hover:!shadow-xl transition-all duration-300" />
@@ -46,6 +46,9 @@ function App() {
         ) : (
           // Main App Content (After Wallet Connection)
           <div className="relative z-10 bg-gray-900">
+            {/* Animated Divider */}
+            <div className="relative h-1 bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent animate-glow-line mb-8" />
+            
             <main className="container mx-auto px-4 py-12">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2 space-y-8">
