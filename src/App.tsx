@@ -1,4 +1,3 @@
-import { WalletProviderWrapper } from './WalletProvider'
 import RequestForm from './components/RequestForm'
 import RequestFeed from './components/RequestFeed'
 import Dashboard from './components/Dashboard'

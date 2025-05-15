@@ -21,11 +21,13 @@ export default defineConfig({
       '@solana/wallet-adapter-base',
       '@solana/wallet-adapter-react',
       '@solana/wallet-adapter-react-ui',
+      '@solana/wallet-adapter-wallets',
       'buffer',
       'process',
       'stream-browserify',
       'util',
-      'browserify-zlib'
+      'browserify-zlib',
+      'rpc-websockets'
     ],
     esbuildOptions: {
       target: 'esnext'
@@ -38,12 +40,14 @@ export default defineConfig({
       transformMixedEsModules: true
     },
     rollupOptions: {
+      external: ['rpc-websockets'],
       output: {
         manualChunks: {
           'wallet-adapter': [
             '@solana/wallet-adapter-base',
             '@solana/wallet-adapter-react',
-            '@solana/wallet-adapter-react-ui'
+            '@solana/wallet-adapter-react-ui',
+            '@solana/wallet-adapter-wallets'
           ]
         }
       }
