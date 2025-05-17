@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import RequestForm from './components/RequestForm'
 import RoleSelectModal from './components/RoleSelectModal'
 import { useUserStore } from './stores/userStore'
@@ -12,11 +12,11 @@ import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 function App() {
   const userRole = useUserStore((s) => s.userRole)
   const clearUserRole = useUserStore((s) => s.clearUserRole)
-  const showRoleModal = !userRole
   const wallet = useWallet()
   const navigate = useNavigate()
   const location = useLocation()
-  const [lastWallet, setLastWallet] = useState<string | null>(null)
+  const lastWallet = useRef<string | null>(null)
+  const showRoleModal = !userRole
 
   // Wallet connection and routing logic
   useEffect(() => {
@@ -34,15 +34,15 @@ function App() {
 
   // Ensure role modal appears after wallet connect if no role is set
   useEffect(() => {
-    if (wallet.connected && !userRole) {
-      // Show role modal
-      // Optionally, clear userRole if wallet changed
-      if (wallet.publicKey?.toString() !== lastWallet) {
+    if (wallet.connected) {
+      const currentWallet = wallet.publicKey?.toString() || null
+      if (lastWallet.current && lastWallet.current !== currentWallet) {
         clearUserRole()
-        setLastWallet(wallet.publicKey?.toString() || null)
       }
+      lastWallet.current = currentWallet
+      // Modal will show because showRoleModal = !userRole
     }
-  }, [wallet.connected, wallet.publicKey, userRole, clearUserRole, lastWallet])
+  }, [wallet.connected, wallet.publicKey, userRole, clearUserRole])
 
   // Connect screen as a component
   const ConnectScreen = () => (
