@@ -51,9 +51,7 @@ export default function RequestForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!publicKey) return
-
     setIsSubmitting(true)
-
     try {
       const walletAddress = publicKey.toString()
       const request: Request = {
@@ -61,7 +59,7 @@ export default function RequestForm() {
         title,
         description,
         amount: parseFloat(amount),
-        category,
+        category: category as RequestCategory,
         location,
         requester: walletAddress.slice(0, 4) + '...' + walletAddress.slice(-4),
         requesterWallet: walletAddress,
@@ -70,13 +68,11 @@ export default function RequestForm() {
         donations: [],
         imageUrl: imagePreview
       }
-
       addRequest(request)
-      // Reset form
       setTitle('')
       setDescription('')
       setAmount('')
-      setCategory('Fire')
+      setCategory('Fire' as RequestCategory)
       setImagePreview(null)
       if (fileInputRef.current) {
         fileInputRef.current.value = ''
