@@ -1,48 +1,31 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import RequestForm from './components/RequestForm'
 import RoleSelectModal from './components/RoleSelectModal'
-import { useUserStore } from './stores/userStore'
 import DonorDashboard from './components/DonorDashboard'
 import SidebarRoleSwitcher from './components/SidebarRoleSwitcher'
 import DisasterTicker from './components/DisasterTicker'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 
 function App() {
-  const userRole = useUserStore((s) => s.userRole)
-  const clearUserRole = useUserStore((s) => s.clearUserRole)
-  const wallet = useWallet()
-  const navigate = useNavigate()
-  const location = useLocation()
-  const lastWallet = useRef<string | null>(null)
-  const showRoleModal = !userRole
+  const { publicKey } = useWallet();
+  const [showRoleModal, setShowRoleModal] = useState(false);
+  const [userRole, setUserRole] = useState<string | null>(localStorage.getItem('userRole'));
 
-  // Wallet connection and routing logic
   useEffect(() => {
-    if (!wallet.connected) {
-      if (location.pathname !== '/connect') navigate('/connect')
-      return
+    const connected = publicKey !== null;
+    const hasRole = !!localStorage.getItem('userRole');
+    if (connected && !hasRole) {
+      setShowRoleModal(true);
     }
-    // Only redirect based on role if not already on /request
-    if (userRole === 'donor' && location.pathname !== '/donor') {
-      navigate('/donor')
-    } else if (userRole === 'requester' && location.pathname !== '/request') {
-      navigate('/request')
-    }
-  }, [wallet.connected, userRole, navigate, location.pathname])
+  }, [publicKey]);
 
-  // Ensure role modal appears after wallet connect if no role is set
-  useEffect(() => {
-    if (wallet.connected) {
-      const currentWallet = wallet.publicKey?.toString() || null
-      if (lastWallet.current && lastWallet.current !== currentWallet) {
-        clearUserRole()
-      }
-      lastWallet.current = currentWallet
-      // Modal will show because showRoleModal = !userRole
-    }
-  }, [wallet.connected, wallet.publicKey, userRole, clearUserRole])
+  const handleRoleSelect = (role: 'donor' | 'requester') => {
+    localStorage.setItem('userRole', role);
+    setUserRole(role);
+    setShowRoleModal(false);
+  };
 
   // Connect screen as a component
   const ConnectScreen = () => (
@@ -69,9 +52,7 @@ function App() {
           </h1>
           <WalletMultiButton className="!bg-solana-card-bg !text-solana-text-light hover:!bg-solana-card-bg/80" />
         </div>
-        {showRoleModal ? (
-          <RoleSelectModal />
-        ) : userRole === 'donor' ? (
+        {userRole === 'donor' ? (
           <DonorDashboard />
         ) : (
           <RequestForm />
@@ -82,13 +63,16 @@ function App() {
   )
 
   return (
-    <Routes>
-      <Route path="/connect" element={<ConnectScreen />} />
-      <Route path="/request" element={wallet.connected ? <RequestForm /> : <ConnectScreen />} />
-      <Route path="/donor" element={wallet.connected ? <DonorDashboard /> : <ConnectScreen />} />
-      <Route path="/*" element={wallet.connected ? <MainContent /> : <ConnectScreen />} />
-    </Routes>
-  )
+    <>
+      {showRoleModal && <RoleSelectModal onSelect={handleRoleSelect} />}
+      <Routes>
+        <Route path="/connect" element={<ConnectScreen />} />
+        <Route path="/request" element={publicKey ? <RequestForm /> : <ConnectScreen />} />
+        <Route path="/donor" element={publicKey ? <DonorDashboard /> : <ConnectScreen />} />
+        <Route path="/*" element={publicKey ? <MainContent /> : <ConnectScreen />} />
+      </Routes>
+    </>
+  );
 }
 
 export default App
