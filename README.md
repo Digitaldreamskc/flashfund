@@ -1,6 +1,6 @@
 # ⚡ FlashFund — Emergency Aid, Onchain and Instant
 
-**FlashFund** is a lightweight, fast-response dApp that lets users raise and receive emergency crypto donations instantly through micro-contributions on Solana.
+**FlashFund** is a lightweight, fast-response dApp that lets users raise and receive monetary donations  for emergencys/disaster reflief instantly through micro-contributions on Solana.
 
 Designed for speed, simplicity, and trust.
 
@@ -37,7 +37,7 @@ Traditional fundraising platforms are slow, bureaucratic, and often inaccessible
 
 ## 🌐 Live Demo
 
-🔗 https://flahfundd.netlify.app/  
+🔗 https://api.netlify.com/api/v1/badges/e2a75238-ec06-4d9c-8848-4da5220fd49a/deploy-status (https://app.netlify.com/projects/flashfundd/deploys)
 
 
 ---
@@ -54,7 +54,6 @@ Traditional fundraising platforms are slow, bureaucratic, and often inaccessible
 
 ## 📸 Preview
 
-![FlashFund UI](./screenshot.png)
 
 ---
 
