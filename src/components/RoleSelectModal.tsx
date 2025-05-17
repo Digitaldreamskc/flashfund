@@ -1,6 +1,6 @@
-type RoleSelectModalProps = {
-  onSelect: (role: 'donor' | 'requester') => void;
-};
+interface RoleSelectModalProps {
+  onSelect: (role: 'requester' | 'donor') => void;
+}
 
 const RoleSelectModal: React.FC<RoleSelectModalProps> = ({ onSelect }) => {
   return (

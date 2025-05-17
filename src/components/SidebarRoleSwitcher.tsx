@@ -7,7 +7,10 @@ const SidebarRoleSwitcher: FC = () => {
   const setUserRole = useUserStore(state => state.setUserRole)
 
   const handleRoleSwitch = () => {
-    setUserRole(userRole === 'donor' ? 'requester' : 'donor')
+    const newRole = userRole === 'donor' ? 'requester' : 'donor';
+    setUserRole(newRole);
+    localStorage.setItem('userRole', newRole);
+    location.reload();
   }
 
   return (
@@ -27,6 +30,7 @@ const SidebarRoleSwitcher: FC = () => {
       </motion.button>
       <button
         onClick={() => {
+          setUserRole(null);
           localStorage.removeItem('userRole');
           location.reload();
         }}

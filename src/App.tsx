@@ -6,26 +6,44 @@ import SidebarRoleSwitcher from './components/SidebarRoleSwitcher'
 import DisasterTicker from './components/DisasterTicker'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
+import { useUserStore } from './stores/userStore'
 
 function App() {
   const { publicKey } = useWallet();
+  const userRole = useUserStore(state => state.userRole);
+  const setUserRole = useUserStore(state => state.setUserRole);
   const [showRoleModal, setShowRoleModal] = useState(false);
-  const [userRole, setUserRole] = useState<string | null>(localStorage.getItem('userRole'));
+  const navigate = useNavigate();
 
   useEffect(() => {
     const connected = publicKey !== null;
-    const hasRole = !!localStorage.getItem('userRole');
+    const hasRole = !!userRole;
     if (connected && !hasRole) {
       setShowRoleModal(true);
     }
-  }, [publicKey]);
+  }, [publicKey, userRole]);
 
   const handleRoleSelect = (role: 'donor' | 'requester') => {
-    localStorage.setItem('userRole', role);
     setUserRole(role);
+    localStorage.setItem('userRole', role);
     setShowRoleModal(false);
+    if (role === 'donor') {
+      navigate('/donor');
+    } else {
+      navigate('/request');
+    }
   };
+
+  useEffect(() => {
+    if (!userRole) {
+      navigate('/connect');
+    } else if (userRole === 'donor') {
+      navigate('/donor');
+    } else {
+      navigate('/request');
+    }
+  }, [userRole, navigate]);
 
   // Connect screen as a component
   const ConnectScreen = () => (
