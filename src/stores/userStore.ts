@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-export type UserRole = 'donor' | 'requester'
+export type UserRole = 'donor' | 'requester' | null
 
 export interface SupportedRequest {
   requestId: string
@@ -11,7 +11,7 @@ export interface SupportedRequest {
 }
 
 interface UserStore {
-  userRole: UserRole | null
+  userRole: UserRole
   setUserRole: (role: UserRole) => void
   clearUserRole: () => void
   supportedRequests: SupportedRequest[]
@@ -39,7 +39,11 @@ export const useUserStore = create<UserStore>((set, get) => ({
   setUserRole: (role) => {
     set({ userRole: role })
     if (typeof window !== 'undefined') {
-      localStorage.setItem('userRole', role)
+      if (role === null) {
+        localStorage.removeItem('userRole')
+      } else {
+        localStorage.setItem('userRole', role)
+      }
     }
   },
   clearUserRole: () => {
