@@ -1,6 +1,3 @@
-import { FC } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-
 type RoleSelectModalProps = {
   onSelect: (role: 'donor' | 'requester') => void;
 };
