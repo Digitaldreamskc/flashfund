@@ -89,7 +89,7 @@ const DonationModal: FC<DonationModalProps> = ({
                 </button>
                 <button
                   type="submit"
-                  disabled={status === 'pending' as typeof status}
+                  disabled={status === 'pending'}
                   className="flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-solana-primary to-solana-secondary text-white font-bold shadow hover:shadow-[0_0_16px_2px_rgba(153,69,255,0.5)] transition-all duration-200 animate-pulse-glow disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {status === 'pending' ? 'Processing...' : 'Donate'}

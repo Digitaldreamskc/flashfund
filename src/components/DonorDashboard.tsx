@@ -125,7 +125,7 @@ const DonorDashboard: FC = () => {
           transition={{ delay: 0.5 }}
           type="text"
           value={search}
-          onChange={e => setSearch(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
           placeholder="Search by state, region, or disaster type..."
           className="mb-4 px-4 py-2 rounded-lg bg-solana-card-bg border border-solana-accent/20 text-solana-text-light focus:outline-none focus:ring-2 focus:ring-solana-accent w-full md:w-96"
         />
@@ -159,7 +159,7 @@ const DonorDashboard: FC = () => {
                       <div className="flex-1">
                         <div className="font-semibold text-solana-primary mb-2">{req.title}</div>
                         <div className="flex items-center gap-2 text-xs text-solana-text-light/60 mb-2">
-                          <span className={`px-2 py-1 rounded-full ${categoryColors[req.category] || categoryColors.Other}`}>
+                          <span className={`px-2 py-1 rounded-full ${categoryColors[req.category]}`}>
                             {req.category}
                           </span>
                           <span>•</span>
