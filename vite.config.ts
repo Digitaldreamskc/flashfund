@@ -1,74 +1,51 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import path from 'path'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    nodePolyfills({
+      include: ['buffer', 'process', 'util', 'stream'],
+      globals: {
+        Buffer: true,
+        global: true,
+        process: true,
+      },
+    }),
+    react(),
+  ],
+  server: {
+    port: 5173,
+    host: true
+  },
   resolve: {
     alias: {
-      process: path.resolve(__dirname, 'node_modules/process/browser.js'),
-      stream: path.resolve(__dirname, 'node_modules/stream-browserify'),
-      zlib: path.resolve(__dirname, 'node_modules/browserify-zlib'),
-      util: path.resolve(__dirname, 'node_modules/util'),
-      buffer: path.resolve(__dirname, 'node_modules/buffer'),
-      'rpc-websockets': path.resolve(__dirname, 'node_modules/rpc-websockets')
-    }
-  },
-  optimizeDeps: {
-    include: [
-      '@solana/web3.js',
-      '@solana/wallet-adapter-base',
-      '@solana/wallet-adapter-react',
-      '@solana/wallet-adapter-react-ui',
-      '@solana/wallet-adapter-wallets',
-      'buffer',
-      'process',
-      'stream-browserify',
-      'util',
-      'browserify-zlib',
-      'rpc-websockets'
-    ],
-    esbuildOptions: {
-      target: 'esnext'
-    }
-  },
-  build: {
-    target: 'esnext',
-    commonjsOptions: {
-      include: [/@solana\/.*/, /node_modules/],
-      transformMixedEsModules: true
-    },
-    rollupOptions: {
-      external: ['rpc-websockets'],
-      output: {
-        manualChunks: {
-          'wallet-adapter': [
-            '@solana/wallet-adapter-base',
-            '@solana/wallet-adapter-react',
-            '@solana/wallet-adapter-react-ui',
-            '@solana/wallet-adapter-wallets'
-          ]
-        }
-      }
+      buffer: 'buffer',
+      process: "process/browser",
+      stream: "stream-browserify",
+      zlib: "browserify-zlib",
+      util: 'util'
     }
   },
   define: {
     'process.env': {},
-    global: 'globalThis'
+    global: 'globalThis',
   },
-  server: {
-    headers: {
-      'Content-Security-Policy': `
-        default-src 'self';
-        script-src 'self' 'unsafe-eval' 'unsafe-inline';
-        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-        font-src 'self' https://fonts.gstatic.com;
-        img-src 'self' data: https:;
-        connect-src 'self' https://api.devnet.solana.com wss://api.devnet.solana.com;
-        frame-src 'self' https://*.solana.com;
-        worker-src 'self' blob:;
-      `.replace(/\s+/g, ' ').trim()
+  optimizeDeps: {
+    esbuildOptions: {
+      define: {
+        global: 'globalThis'
+      }
+    }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        globals: {
+          buffer: 'Buffer'
+        }
+      }
     }
   }
 })

@@ -119,6 +119,10 @@ button:focus-visible {
   .delay-1000 {
     animation-delay: 1s;
   }
+
+  .animate-ticker {
+    animation: ticker 30s linear infinite;
+  }
 }
 
 @keyframes glow {
@@ -158,3 +162,13 @@ button:focus-visible {
     transform: translateY(0);
   }
 }
+
+@keyframes ticker {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+ 
